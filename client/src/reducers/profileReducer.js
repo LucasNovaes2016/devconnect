@@ -2,10 +2,14 @@ import {
   GET_PROFILE,
   GET_PROFILES,
   PROFILE_LOADING,
-  CLEAR_CURRENT_PROFILE
-} from '../actions/types';
+  CLEAR_CURRENT_PROFILE,
+  GET_EDUCATION,
+  EDUCATION_LOADING,
+  CLEAR_CURRENT_EDUCATION
+} from "../actions/types";
 
 const initialState = {
+  education: null,
   profile: null,
   profiles: null,
   loading: false
@@ -34,6 +38,22 @@ export default function(state = initialState, action) {
       return {
         ...state,
         profile: null
+      };
+    case EDUCATION_LOADING:
+      return {
+        ...state,
+        loading: true
+      };
+    case GET_EDUCATION:
+      return {
+        ...state,
+        education: action.payload,
+        loading: false
+      };
+      case CLEAR_CURRENT_EDUCATION:
+      return {
+        ...state,
+        education: null
       };
     default:
       return state;

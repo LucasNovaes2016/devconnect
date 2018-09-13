@@ -6,7 +6,11 @@ import {
   PROFILE_LOADING,
   CLEAR_CURRENT_PROFILE,
   GET_ERRORS,
-  SET_CURRENT_USER
+  SET_CURRENT_USER,
+  GET_EDUCATION,
+  EDUCATION_LOADING,
+  CLEAR_CURRENT_EDUCATION,
+  CLEAR_ERRORS
 } from "./types";
 
 // Get current profile
@@ -82,6 +86,38 @@ export const addEducation = (eduData, history) => dispatch => {
       dispatch({
         type: GET_ERRORS,
         payload: err.response.data
+      })
+    );
+};
+
+// Edit education
+export const editEducation = (id, history, eduData) => dispatch => {
+  axios
+    .post(`/api/profile/education/${id}`, eduData)
+    .then(res => history.push("/dashboard"))
+    .catch(err =>
+      dispatch({
+        type: GET_ERRORS,
+        payload: err.response.data
+      })
+    );
+};
+
+// Get current peducation
+export const getEducation = id => dispatch => {
+  dispatch(setEducationLoading());
+  axios
+    .get(`/api/profile/education/${id}`)
+    .then(res =>
+      dispatch({
+        type: GET_EDUCATION,
+        payload: res.data
+      })
+    )
+    .catch(err =>
+      dispatch({
+        type: GET_EDUCATION,
+        payload: {}
       })
     );
 };
@@ -168,9 +204,30 @@ export const setProfileLoading = () => {
   };
 };
 
+// Profile loading
+export const setEducationLoading = () => {
+  return {
+    type: EDUCATION_LOADING
+  };
+};
+
 // Clear profile
 export const clearCurrentProfile = () => {
   return {
     type: CLEAR_CURRENT_PROFILE
+  };
+};
+
+// Clear education
+export const clearCurrentEducation = () => {
+  return {
+    type: CLEAR_CURRENT_EDUCATION
+  };
+};
+
+// Clear errors
+export const clearErrors = () => {
+  return {
+    type: CLEAR_ERRORS
   };
 };

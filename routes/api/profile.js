@@ -286,6 +286,80 @@ router.delete(
   }
 );
 
+// @route   GET api/profile/education/:edu_id
+// @desc    GET education from profile by id
+// @access  Private
+router.get(
+  "/education/:edu_id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        // Get remove index
+        const findIndex = profile.education
+          .map(item => item.id)
+          .indexOf(req.params.edu_id);
+
+        res.json(profile.education[findIndex]);
+      })
+      .catch(err =>
+      res
+        .status(404)
+        .json({ profile: "Nenhuma educação encontrada com este id" })
+    );
+
+  }
+);
+
+// @route   POST api/profile/education/:id
+// @desc    POST edit education with an id
+// @access  Private
+router.post(
+  "/education/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+
+  	const { errors, isValid } = validateEducationInput(req.body);
+
+    // Check Validation
+    if (!isValid) {
+      // Return any errors with 400 status
+      return res.status(400).json(errors);
+    }
+
+    const updateEdu = {}; // Educação atualizada
+
+  	// Get fields
+    if (req.body.school) updateEdu.school = req.body.school;
+    if (req.body.degree) updateEdu.degree = req.body.degree;
+    if (req.body.fieldofstudy) updateEdu.fieldofstudy= req.body.fieldofstudy;
+    if (req.body.from) updateEdu.from = req.body.from;
+    if (req.body.from) updateEdu.to = req.body.to;
+    if (req.body.current) updateEdu.current = req.body.current;
+    if (req.body.description) updateEdu.description = req.body.description;
+
+
+    Profile.findOne({ user: req.user.id })
+      .then(profile => {
+        // Get remove index
+        const updateIndex = profile.education
+          .map(item => item.id)
+          .indexOf(req.params.id);
+
+        // Splice out of array
+        profile.education[updateIndex] = updateEdu;
+
+        // Save
+        profile.save().then(profile => res.json(profile));
+      })
+      .catch(err => res.status(404).json(err));
+    
+
+ 	 
+ });
+
+
+
 // @route   DELETE api/profile
 // @desc    Delete user and profile
 // @access  Private

@@ -128,7 +128,7 @@ class AddEducation extends Component {
                     id="current"
                   />
                   <label htmlFor="current" className="form-check-label">
-                    Current Job
+                    Experiência atual
                   </label>
                 </div>
                 <TextAreaFieldGroup

@@ -18,6 +18,7 @@ import Login from "./components/auth/Login";
 import Dashboard from "./components/dashboard/Dashboard";
 import CreateProfile from "./components/create-profile/CreateProfile";
 import EditProfile from "./components/edit-profile/EditProfile";
+import EditEducation from "./components/edit-education/EditEducation";
 import AddExperience from "./components/add-credentials/AddExperience";
 import AddEducation from "./components/add-credentials/AddEducation";
 import Profiles from "./components/profiles/Profiles";
@@ -86,8 +87,8 @@ class App extends Component {
                 />
                 <PrivateRoute
                   exact
-                  path="/add-education"
-                  component={AddEducation}
+                  path="/edit-education/:id"
+                  component={EditEducation}
                 />
                 <PrivateRoute exact path="/feed" component={Posts} />
                 <PrivateRoute exact path="/post/:id" component={Post} />

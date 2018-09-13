@@ -83,7 +83,8 @@ const ProfileSchema = new Schema({
         required: true
       },
       to: {
-        type: Date
+        type: Date,
+        required: false
       },
       current: {
         type: Boolean,
